@@ -6,7 +6,7 @@ from ipywidgets import interact
 client = MongoClient("") 
 
 db = client.projet
-collection_estate = db[estate']
+collection_estate = db['estate']
 
 cur = collection_estate.aggregate([
     {'$group':{'_id':'$id','price': {"$sum": "$price"},'département': "$dpt"}},
@@ -27,3 +27,7 @@ def f(dpt):
         {"$unwind": "$price"},
         {'$group':{'_id':'$id','price': {"$sum": "$price"},'département': "$dpt"}},
     ])
+
+def get_highest_price(self):
+        cur_highest_price = self.collection_estate.find({'Type': 'Venta'}).sort('Price', -1).limit(5)
+        return cur_highest_price
